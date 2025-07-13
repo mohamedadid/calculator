@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusCalc - Ultimate Calculator Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- History Panel -->
+    <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+            <h3><i class="fas fa-history"></i> Calculation History</h3>
+            <button class="close-history" id="closeHistory">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="historyList">
+            <!-- History items will be added here -->
+            <div class="history-item">
+                <strong>Arithmetic Calculator</strong><br>25 + 7 = 32<br><small>Just now</small>
+            </div>
+            <div class="history-item">
+                <strong>BMI Calculator</strong><br>BMI: 23.1 (Normal weight)<br><small>2 minutes ago</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3><i class="fas fa-cog"></i> Settings</h3>
+            <button class="close-settings" id="closeSettings">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <h4><i class="fas fa-palette"></i> Theme</h4>
+        <div class="theme-selector">
+            <div class="theme-option active" style="background: linear-gradient(135deg, #8a2be2, #00c6ff);" data-theme="default"></div>
+            <div class="theme-option" style="background: linear-gradient(135deg, #ff2d75, #ff8c00);" data-theme="sunset"></div>
+            <div class="theme-option" style="background: linear-gradient(135deg, #00b09b, #96c93d);" data-theme="forest"></div>
+            <div class="theme-option" style="background: linear-gradient(135deg, #4b6cb7, #182848);" data-theme="ocean"></div>
+        </div>
+        <h4><i class="fas fa-moon"></i> Dark Mode</h4>
+        <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="radio" name="darkMode" value="auto" checked> Auto
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="radio" name="darkMode" value="on"> On
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="radio" name="darkMode" value="off"> Off
+            </label>
+        </div>
+        <h4><i class="fas fa-save"></i> Auto Save</h4>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+            <input type="checkbox" id="autoSave" checked>
+            <label for="autoSave">Save calculations automatically</label>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <div class="logo-text">CALCULATOR</div>
+                </div>
+                <p class="tagline">Advanced calculators for every need - science, finance, health, and more</p>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="historyBtn">
+                    <i class="fas fa-history"></i> History
+                </button>
+                <button class="nav-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="category-nav">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-star"></i> All Calculators
+            </button>
+            <button class="category-btn" data-category="basic">
+                <i class="fas fa-calculator"></i> Basic
+            </button>
+            <button class="category-btn" data-category="scientific">
+                <i class="fas fa-atom"></i> Scientific
+            </button>
+            <button class="category-btn" data-category="financial">
+                <i class="fas fa-chart-line"></i> Financial
+            </button>
+            <button class="category-btn" data-category="tax">
+                <i class="fas fa-file-invoice-dollar"></i> Tax
+            </button>
+            <button class="category-btn" data-category="health">
+                <i class="fas fa-heartbeat"></i> Health
+            </button>
+        </div>
+
+        <div class="calculator-grid">
+            <!-- Basic Calculator -->
+            <div class="calculator-card" data-category="basic">
+                <div class="card-header">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Advanced Arithmetic Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="num1"><i class="fas fa-hashtag"></i> First Number</label>
+                        <input type="number" id="num1" placeholder="Enter a number" value="25">
+                    </div>
+                    <div class="input-group">
+                        <label for="operation"><i class="fas fa-sliders-h"></i> Operation</label>
+                        <select id="operation">
+                            <option value="add">Addition (+)</option>
+                            <option value="subtract">Subtraction (-)</option>
+                            <option value="multiply">Multiplication (×)</option>
+                            <option value="divide">Division (÷)</option>
+                            <option value="modulo">Modulo (%)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="num2"><i class="fas fa-hashtag"></i> Second Number</label>
+                        <input type="number" id="num2" placeholder="Enter a number" value="7">
+                    </div>
+                    <button class="btn-calculate" onclick="calculateBasic()">
+                        <i class="fas fa-bolt"></i> Calculate
+                    </button>
+                    
+                    <div class="result-container" id="basicResult">
+                        <div class="result-title">
+                            <span>Calculation Result</span>
+                        </div>
+                        <div class="result-value" id="basicResultValue">32</div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('basic')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('basic')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Enter two numbers in the input fields</li>
+                            <li>Select the operation you want to perform</li>
+                            <li>Click "Calculate" to see the result instantly</li>
+                            <li>Save or share your calculation for future reference</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scientific Calculator -->
+            <div class="calculator-card" data-category="scientific">
+                <div class="card-header">
+                    <i class="fas fa-square-root-alt"></i>
+                    <h3>Scientific Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="sciOperation"><i class="fas fa-cogs"></i> Select Operation</label>
+                        <select id="sciOperation">
+                            <option value="square">Square (x²)</option>
+                            <option value="sqrt">Square Root (√x)</option>
+                            <option value="power">Power (xʸ)</option>
+                            <option value="log">Logarithm (log)</option>
+                            <option value="sin">Sine (sin)</option>
+                            <option value="cos">Cosine (cos)</option>
+                            <option value="tan">Tangent (tan)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="sciNum1"><i class="fas fa-hashtag"></i> Number (x)</label>
+                        <input type="number" id="sciNum1" placeholder="Enter a number" value="64">
+                    </div>
+                    <div class="input-group" id="sciNum2Group" style="display: none;">
+                        <label for="sciNum2"><i class="fas fa-hashtag"></i> Exponent (y)</label>
+                        <input type="number" id="sciNum2" placeholder="Enter exponent" value="3">
+                    </div>
+                    <button class="btn-calculate" onclick="calculateScientific()">
+                        <i class="fas fa-bolt"></i> Calculate
+                    </button>
+                    
+                    <div class="result-container" id="scientificResult">
+                        <div class="result-title">
+                            <span>Scientific Result</span>
+                        </div>
+                        <div class="result-value" id="scientificResultValue">4096</div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('scientific')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('scientific')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Select the scientific operation you want to perform</li>
+                            <li>Enter the required number(s)</li>
+                            <li>For power calculations, enter the exponent in the second field</li>
+                            <li>Trigonometric functions use degrees for calculations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Calculator -->
+            <div class="calculator-card" data-category="financial">
+                <div class="card-header">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3>Loan Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="loanAmount"><i class="fas fa-dollar-sign"></i> Loan Amount ($)</label>
+                        <input type="number" id="loanAmount" placeholder="Enter loan amount" value="25000">
+                    </div>
+                    <div class="input-group">
+                        <label for="interestRate"><i class="fas fa-percentage"></i> Interest Rate (% per year)</label>
+                        <input type="number" id="interestRate" placeholder="Enter interest rate" value="5.5" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="loanTerm"><i class="fas fa-clock"></i> Loan Term (years)</label>
+                        <input type="number" id="loanTerm" placeholder="Enter loan term" value="7">
+                    </div>
+                    <button class="btn-calculate" onclick="calculateLoan()">
+                        <i class="fas fa-bolt"></i> Calculate
+                    </button>
+                    
+                    <div class="result-container" id="loanResult">
+                        <div class="result-title">
+                            <span>Monthly Payment</span>
+                            <span id="loanResultValue">$362.50</span>
+                        </div>
+                        <div class="result-title">
+                            <span>Total Interest</span>
+                            <span id="totalInterest">$5,450.00</span>
+                        </div>
+                        <div class="result-title">
+                            <span>Total Payment</span>
+                            <span id="totalPayment">$30,450.00</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('financial')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('financial')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Enter the loan amount you want to borrow</li>
+                            <li>Enter the annual interest rate for the loan</li>
+                            <li>Enter the loan term in years</li>
+                            <li>Calculation includes both principal and interest</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tax Calculator -->
+            <div class="calculator-card" data-category="tax">
+                <div class="card-header">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Income Tax Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="income"><i class="fas fa-dollar-sign"></i> Annual Income ($)</label>
+                        <input type="number" id="income" placeholder="Enter your annual income" value="85000">
+                    </div>
+                    <div class="input-group">
+                        <label for="filingStatus"><i class="fas fa-user"></i> Filing Status</label>
+                        <select id="filingStatus">
+                            <option value="single">Single</option>
+                            <option value="married">Married Filing Jointly</option>
+                            <option value="head">Head of Household</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="deductions"><i class="fas fa-minus-circle"></i> Deductions ($)</label>
+                        <input type="number" id="deductions" placeholder="Enter deductions" value="12500">
+                    </div>
+                    <button class="btn-calculate" onclick="calculateTax()">
+                        <i class="fas fa-bolt"></i> Calculate
+                    </button>
+                    
+                    <div class="result-container" id="taxResult">
+                        <div class="result-title">
+                            <span>Taxable Income</span>
+                            <span id="taxableIncome">$72,500.00</span>
+                        </div>
+                        <div class="result-title">
+                            <span>Tax Rate</span>
+                            <span id="taxRate">22%</span>
+                        </div>
+                        <div class="result-title">
+                            <span>Tax Owed</span>
+                            <span id="taxOwed">$15,950.00</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('tax')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('tax')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Enter your gross annual income</li>
+                            <li>Select your tax filing status</li>
+                            <li>Enter any applicable deductions</li>
+                            <li>Calculation based on standard tax brackets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Calculator -->
+            <div class="calculator-card" data-category="health">
+                <div class="card-header">
+                    <i class="fas fa-weight"></i>
+                    <h3>BMI Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label><i class="fas fa-balance-scale"></i> Unit System</label>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="unitSystem" value="metric" checked> 
+                                <i class="fas fa-ruler"></i> Metric (kg, cm)
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="unitSystem" value="imperial"> 
+                                <i class="fas fa-ruler-combined"></i> Imperial (lbs, in)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="weight"><i class="fas fa-weight"></i> Weight</label>
+                        <input type="number" id="weight" placeholder="Enter weight" value="75">
+                    </div>
+                    <div class="input-group">
+                        <label for="height"><i class="fas fa-ruler-vertical"></i> Height</label>
+                        <input type="number" id="height" placeholder="Enter height" value="180">
+                    </div>
+                    <button class="btn-calculate" onclick="calculateBMI()">
+                        <i class="fas fa-bolt"></i> Calculate
+                    </button>
+                    
+                    <div class="result-container" id="bmiResult">
+                        <div class="result-title">
+                            <span>Your BMI</span>
+                        </div>
+                        <div class="result-value" id="bmiValue">23.1</div>
+                        <div class="result-title">
+                            <span>Category</span>
+                            <span id="bmiCategory" style="color: var(--success);">Normal weight</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('health')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('health')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Select your preferred unit system</li>
+                            <li>Enter your weight and height</li>
+                            <li>BMI Categories: Underweight (&lt;18.5), Normal (18.5-24.9), Overweight (25-29.9), Obese (≥30)</li>
+                            <li>This is a general indicator - consult a health professional for advice</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Currency Converter -->
+            <div class="calculator-card" data-category="financial">
+                <div class="card-header">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Currency Converter</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="amount"><i class="fas fa-dollar-sign"></i> Amount</label>
+                        <input type="number" id="amount" placeholder="Enter amount" value="100">
+                    </div>
+                    <div class="input-group">
+                        <label for="fromCurrency"><i class="fas fa-arrow-right"></i> From Currency</label>
+                        <select id="fromCurrency">
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="toCurrency"><i class="fas fa-arrow-left"></i> To Currency</label>
+                        <select id="toCurrency">
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                        </select>
+                    </div>
+                    <button class="btn-calculate" onclick="convertCurrency()">
+                        <i class="fas fa-bolt"></i> Convert
+                    </button>
+                    
+                    <div class="result-container" id="currencyResult">
+                        <div class="result-title">
+                            <span>Conversion Result</span>
+                        </div>
+                        <div class="result-value" id="convertedAmount">€92.50</div>
+                        <div class="result-title">
+                            <span>Exchange Rate</span>
+                            <span id="exchangeRate">1 USD = 0.925 EUR</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn save-btn" onclick="saveResult('currency')">
+                                <i class="fas fa-save"></i> Save Result
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareResult('currency')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <ul>
+                            <li>Enter the amount you want to convert</li>
+                            <li>Select the currency you're converting from</li>
+                            <li>Select the currency you're converting to</li>
+                            <li>Rates update daily from financial markets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+            <p>© 2023 NexusCalc - Ultimate Calculator Hub | Made with <i class="fas fa-heart" style="color: var(--accent);"></i> for the world</p>
+            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                <i class="fas fa-exclamation-circle"></i> Note: This application is for demonstration purposes. Results may vary in real-world applications.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
